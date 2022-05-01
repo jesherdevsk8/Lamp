@@ -7,6 +7,7 @@
 # Desde: Dom 01 Mai 2022 02:16:26 BRT
 # Versão: 1
 # Licença: GPLv3
+# Testando no Debian
 
 #################### VARIÁVEIS
 
@@ -26,12 +27,10 @@ lamp=(
 	php-curl
 	php-xmlrpc
 	php-gd
-	php-mcrypt
-	mariadb-server-10.3
 	mariadb-server
-	phpmyadmin
+	#phpmyadmin -> fazer iteração com usuario no final
 )
-	
+
  #############################################################
  #  Dependências do Apache2 e do PHP que Vão Ser Instaladas
  #  apache2 apache2-bin apache2-data apache2-utils
@@ -69,7 +68,7 @@ ATUALIZAR_REPO() {
 
 INSTALAR(){
 	for programa in ${lamp[@]}; do
-		if [[ ! $(which $programa) ]]; then
+		if ! dpkg -l | grep -q $programa; then
 			echo -e "${VERDE}[INFO] - Instalando o $programa...${SEM_COR}"
 			apt install $programa -y &> /dev/null
 		else
@@ -111,7 +110,7 @@ ATUALIZAR_REPO
 INSTALAR
 RESTART_SERVICES
 CHECK_STATUS
-MARIADB_CONFIG
+#MARIADB_CONFIG -> Fazer interação com usuario no final
 UPGRADE_LIMPA_SISTEMA
 
 
