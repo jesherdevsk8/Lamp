@@ -56,6 +56,12 @@ SEM_COR='\e[0m'
 
 ##################### FUNÇÕES
 
+remover_locks () {
+  echo -e "${VERDE}[INFO] - Removendo locks...${SEM_COR}"
+  rm /var/lib/dpkg/lock-frontend &> /dev/null
+  rm /var/cache/apt/archives/lock &> /dev/null
+}
+
 ATUALIZAR_REPO() {
   echo -e "${VERDE}[INFO] - Atualizando repositórios...${SEM_COR}"
   sudo apt update &> /dev/null
