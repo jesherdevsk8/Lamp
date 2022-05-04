@@ -2,7 +2,7 @@
 
 #############################################################
 # Autor: Jesher Minelli Alves
-# Automatiza Instalação do LAMP - Linux + Apache + PHP + MySQL/MariaDB
+# Automatiza Instalação do LAMP - Linux + Apache + MySQL/MariaDB + PHP
 # ./lamp.sh
 # Desde: Dom 01 Mai 2022 02:16:26 BRT
 # Versão: 1
@@ -11,7 +11,7 @@
 
 #################### VARIÁVEIS
 
-lamp=(	
+lamp_server=(
 	apache2
 	php
 	libapache2-mod-php
@@ -49,9 +49,7 @@ SEM_COR='\e[0m'
 ##################### TESTES
 
 # VALIDAR SE ESTÁ COMO ROOT
-
 (($UID!=0)) && { echo -e "${VERMELHO}Precisa de Root!!!!${SEM_COR}"; exit 1 ; }
-#[[ "$UID" -ne "0" ]] && { echo "Necessita de root"; exit 1 ;}
 
 ##################### FUNÇÕES
 
@@ -67,7 +65,7 @@ ATUALIZAR_REPO() {
 }
 
 INSTALAR(){
-	for programa in ${lamp[@]}; do
+	for programa in ${lamp_server[@]}; do
 		if ! dpkg -l | grep -q $programa; then
 			echo -e "${VERDE}[INFO] - Instalando o $programa...${SEM_COR}"
 			apt install $programa -y &> /dev/null
@@ -77,14 +75,12 @@ INSTALAR(){
 	done
 }
 
-	# CONFIGURE 
-	# sudo nano /etc/php/7.4/apache2/php.ini
-
 RESTART_SERVICES(){
-	/etc/init.d/apache2 restart
-	systemctl enable apache2
-	/etc/init.d/mariadb restart
-	systemctl enable mariadb
+	echo -e "${VERDE}[INFO] - Restantando servicos.....${SEM_COR}"
+  /etc/init.d/apache2 restart &> /dev/null
+  systemctl enable apache2 &> /dev/null
+  /etc/init.d/mariadb restart &> /dev/null
+  systemctl enable mariadb &> /dev/null
 }
 
 CHECK_STATUS(){
@@ -106,6 +102,7 @@ UPGRADE_LIMPA_SISTEMA(){
 
 ###################### EXECUÇÃO
 
+#chamando funções
 ATUALIZAR_REPO
 INSTALAR
 RESTART_SERVICES
