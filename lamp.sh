@@ -48,6 +48,14 @@ SEM_COR='\e[0m'
 
 ##################### TESTES
 
+# Internet conectada?
+if ! ping -c 1 8.8.8.8 -q &> /dev/null; then
+  echo -e "${VERMELHO}Seu computador não tem conexão com a Internet. Verifique os cabos e o modem.${SEM_COR}"
+  exit 1
+else
+  echo -e "${VERDE}[INFO] - Conexão com a Internet funcionando normalmente.${SEM_COR}"
+fi
+
 # VALIDAR SE ESTÁ COMO ROOT
 (($UID!=0)) && { echo -e "${VERMELHO}Precisa de Root!!!!${SEM_COR}"; exit 1 ; }
 
