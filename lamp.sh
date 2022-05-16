@@ -28,7 +28,6 @@ lamp_server=(
 	php-xmlrpc
 	php-gd
 	mariadb-server
-	phpmyadmin
 )
 
  #############################################################
@@ -120,3 +119,4 @@ UPGRADE_LIMPA_SISTEMA
 
 
 echo -e "${VERDE}LAMP Instalado com Sucesso!!!${SEM_COR}"
+echo -e "${VERDE}Instale o phpmyadmin para auxilia-lo melhor, apt install phpmyadmin${SEM_COR}"
