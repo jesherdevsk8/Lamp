@@ -28,7 +28,7 @@ lamp_server=(
 	php-xmlrpc
 	php-gd
 	mariadb-server
-	#phpmyadmin -> fazer iteração com usuario no final
+	phpmyadmin
 )
 
  #############################################################
@@ -53,7 +53,7 @@ SEM_COR='\e[0m'
 
 ##################### FUNÇÕES
 
-remover_locks () {
+REMOVER_LOCKS() {
   echo -e "${VERDE}[INFO] - Removendo locks...${SEM_COR}"
   rm /var/lib/dpkg/lock-frontend &> /dev/null
   rm /var/cache/apt/archives/lock &> /dev/null
@@ -75,25 +75,25 @@ INSTALAR(){
 	done
 }
 
-RESTART_SERVICES(){
-	echo -e "${VERDE}[INFO] - Restantando servicos.....${SEM_COR}"
+RESTART_SERVICES() {
+	echo -e "${VERDE}[INFO] - Restartando serviços.....${SEM_COR}"
   /etc/init.d/apache2 restart &> /dev/null
   systemctl enable apache2 &> /dev/null
   /etc/init.d/mariadb restart &> /dev/null
   systemctl enable mariadb &> /dev/null
 }
 
-CHECK_STATUS(){
+CHECK_STATUS() {
 	echo -e "${VERDE}Apache service is $(systemctl show -p ActiveState --value apache2)${SEM_COR}"
 	echo -e "${VERDE}Maria DB service is $(systemctl show -p ActiveState --value mariadb)${SEM_COR}"
 }
 
-MARIADB_CONFIG(){
-	# Configurar mariadb/mysql
+MARIADB_CONFIG() {
+	# Configure mariadb/mysql com atenção
 	mysql_secure_installation
 }
 
-UPGRADE_LIMPA_SISTEMA(){
+UPGRADE_LIMPA_SISTEMA() {
   echo -e "${VERDE}[INFO] - Fazendo upgrade e limpeza do sistema...${SEM_COR}"
   sudo apt upgrade -y &> /dev/null
   sudo apt autoclean &> /dev/null
@@ -107,7 +107,7 @@ ATUALIZAR_REPO
 INSTALAR
 RESTART_SERVICES
 CHECK_STATUS
-#MARIADB_CONFIG -> Fazer interação com usuario no final
+MARIADB_CONFIG
 UPGRADE_LIMPA_SISTEMA
 
 
